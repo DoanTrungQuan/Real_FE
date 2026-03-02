@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useProperty } from '../../contexts/PropertyContext';
 
 const PropertyDetail = () => {
@@ -7,6 +7,7 @@ const PropertyDetail = () => {
   const { getPropertyById, loading } = useProperty();
   const [property, setProperty] = useState(null);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -14,16 +15,16 @@ const PropertyDetail = () => {
         const data = await getPropertyById(id);
         setProperty(data);
       } catch (err) {
-        setError('Property not found');
+        setError('Không tìm thấy bất động sản');
       }
     };
     fetchProperty();
   }, [id, getPropertyById]);
 
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('vi-VN', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'VND',
       minimumFractionDigits: 0
     }).format(amount);
   };
@@ -34,7 +35,32 @@ const PropertyDetail = () => {
       sold: 'status-badge status-sold',
       pending: 'status-badge status-pending'
     };
-    return <span className={classes[status]}>{status}</span>;
+    const labels = {
+      available: 'Còn trống',
+      sold: 'Đã bán',
+      pending: 'Đang chờ'
+    };
+    return <span className={classes[status]}>{labels[status]}</span>;
+  };
+
+  const getTypeLabel = (type) => {
+    const labels = {
+      land: 'Đất nền',
+      house: 'Nhà ở',
+      apartment: 'Căn hộ',
+      commercial: 'Thương mại'
+    };
+    return labels[type] || type;
+  };
+
+  const handleViewMap = () => {
+    if (property?.latitude && property?.longitude) {
+      navigate(
+        `/map?lat=${property.latitude}&lng=${property.longitude}&id=${property.id}&title=${encodeURIComponent(property.title)}&price=${property.price}`
+      );
+    } else {
+      alert('Bất động sản này chưa có tọa độ trên bản đồ.');
+    }
   };
 
   if (loading) {
@@ -50,9 +76,9 @@ const PropertyDetail = () => {
       <div className="property-detail-page">
         <div className="no-data">
           <div className="no-data-icon">❌</div>
-          <h3>{error || 'Property not found'}</h3>
+          <h3>{error || 'Không tìm thấy bất động sản'}</h3>
           <Link to="/properties" className="btn btn-primary" style={{ marginTop: '1rem' }}>
-            Back to Properties
+            Quay Lại Danh Sách
           </Link>
         </div>
       </div>
@@ -62,7 +88,7 @@ const PropertyDetail = () => {
   return (
     <div className="property-detail-page">
       <Link to="/properties" className="back-button">
-        ← Back to Properties
+        ← Quay Lại Danh Sách
       </Link>
 
       <div className="property-detail-container">
@@ -75,7 +101,7 @@ const PropertyDetail = () => {
               <div>
                 <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
                   <span className={`property-type-badge badge-${property.type}`}>
-                    {property.type}
+                    {getTypeLabel(property.type)}
                   </span>
                   {getStatusBadge(property.status)}
                 </div>
@@ -90,35 +116,35 @@ const PropertyDetail = () => {
             <div className="property-info-grid">
               <div className="property-info-item">
                 <div className="icon">📐</div>
-                <div className="value">{property.area.toLocaleString()} sqft</div>
-                <div className="label">Area</div>
+                <div className="value">{property.area.toLocaleString()} m²</div>
+                <div className="label">Diện Tích</div>
               </div>
               <div className="property-info-item">
                 <div className="icon">🏷️</div>
-                <div className="value" style={{ textTransform: 'capitalize' }}>{property.type}</div>
-                <div className="label">Type</div>
+                <div className="value">{getTypeLabel(property.type)}</div>
+                <div className="label">Loại</div>
               </div>
               <div className="property-info-item">
                 <div className="icon">📊</div>
-                <div className="value" style={{ textTransform: 'capitalize' }}>{property.status}</div>
-                <div className="label">Status</div>
+                <div className="value">{getStatusBadge(property.status)}</div>
+                <div className="label">Trạng Thái</div>
               </div>
               <div className="property-info-item">
                 <div className="icon">📅</div>
                 <div className="value">{property.createdAt}</div>
-                <div className="label">Listed Date</div>
+                <div className="label">Ngày Đăng</div>
               </div>
             </div>
 
             <div className="property-description">
-              <h3>Description</h3>
+              <h3>Mô Tả</h3>
               <p>{property.description}</p>
             </div>
           </div>
         </div>
 
         <div className="seller-card">
-          <h3>Seller Information</h3>
+          <h3>Thông Tin Người Bán</h3>
           {property.seller ? (
             <>
               <div className="seller-info">
@@ -147,15 +173,24 @@ const PropertyDetail = () => {
               </div>
 
               <button className="btn btn-primary">
-                📞 Contact Seller
+                📞 Liên Hệ Người Bán
               </button>
               <button className="btn btn-outline" style={{ marginTop: '0.5rem' }}>
-                💬 Send Message
+                💬 Gửi Tin Nhắn
               </button>
             </>
           ) : (
-            <p>Seller information not available</p>
+            <p>Không có thông tin người bán</p>
           )}
+
+          {/* Map button always visible */}
+          <button
+            className="btn btn-outline"
+            style={{ marginTop: '0.5rem', width: '100%' }}
+            onClick={handleViewMap}
+          >
+            🗺️ Xem Trên Bản Đồ
+          </button>
         </div>
       </div>
     </div>

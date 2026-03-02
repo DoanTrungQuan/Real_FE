@@ -55,7 +55,7 @@ const Register = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h1 className="auth-title">Create Account</h1>
+        <h1 className="auth-title">Tạo tài khoản</h1>
         
         {error && (
           <div style={{ 
@@ -71,7 +71,7 @@ const Register = () => {
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="name">Full Name</label>
+            <label htmlFor="name">Name</label>
             <input
               type="text"
               id="name"
@@ -110,7 +110,7 @@ const Register = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
+            <label htmlFor="confirmPassword">Xác nhận Password</label>
             <input
               type="password"
               id="confirmPassword"
@@ -128,7 +128,7 @@ const Register = () => {
         </form>
 
         <div className="auth-footer">
-          <p>Already have an account? <Link to="/login">Login here</Link></p>
+          <p>Đã có tài khoản? <Link to="/login">Đăng nhập ở đây</Link></p>
         </div>
       </div>
     </div>

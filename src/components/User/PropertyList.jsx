@@ -28,9 +28,9 @@ const PropertyList = () => {
   };
 
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('vi-VN', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'VND',
       minimumFractionDigits: 0
     }).format(amount);
   };
@@ -41,13 +41,28 @@ const PropertyList = () => {
       sold: 'status-badge status-sold',
       pending: 'status-badge status-pending'
     };
-    return <span className={classes[status]}>{status}</span>;
+    const labels = {
+      available: 'Còn trống',
+      sold: 'Đã bán',
+      pending: 'Đang chờ'
+    };
+    return <span className={classes[status]}>{labels[status]}</span>;
+  };
+
+  const getTypeLabel = (type) => {
+    const labels = {
+      land: 'Đất nền',
+      house: 'Nhà ở',
+      apartment: 'Căn hộ',
+      commercial: 'Thương mại'
+    };
+    return labels[type] || type;
   };
 
   return (
     <div className="property-page">
       <div className="page-header">
-        <h1 className="page-title">Available Properties</h1>
+        <h1 className="page-title">Danh Sách Bất Động Sản</h1>
       </div>
 
       <SearchFilter filters={filters} onFilterChange={handleFilterChange} />
@@ -59,8 +74,8 @@ const PropertyList = () => {
       ) : properties.length === 0 ? (
         <div className="no-data">
           <div className="no-data-icon">🏠</div>
-          <h3>No Properties Found</h3>
-          <p>Try adjusting your search filters.</p>
+          <h3>Không Tìm Thấy Bất Động Sản</h3>
+          <p>Hãy thử điều chỉnh bộ lọc tìm kiếm.</p>
         </div>
       ) : (
         <div className="property-grid">
@@ -76,14 +91,14 @@ const PropertyList = () => {
               <div className="property-content">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
                   <span className={`property-type-badge badge-${property.type}`}>
-                    {property.type}
+                    {getTypeLabel(property.type)}
                   </span>
                   {getStatusBadge(property.status)}
                 </div>
                 <h3 className="property-title">{property.title}</h3>
                 <p className="property-location">📍 {property.location}</p>
                 <div className="property-details">
-                  <span className="property-detail">📐 {property.area.toLocaleString()} sqft</span>
+                  <span className="property-detail">📐 {property.area.toLocaleString()} m²</span>
                 </div>
                 <p className="property-price">{formatCurrency(property.price)}</p>
               </div>

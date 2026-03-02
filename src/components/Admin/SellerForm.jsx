@@ -44,7 +44,7 @@ const SellerForm = ({ seller, onClose }) => {
       }
       onClose();
     } catch (error) {
-      alert('Failed to save seller');
+      alert('Lưu thông tin người bán thất bại');
     } finally {
       setLoading(false);
     }
@@ -54,21 +54,21 @@ const SellerForm = ({ seller, onClose }) => {
     <div className="modal-overlay">
       <div className="modal">
         <div className="modal-header">
-          <h2>{seller ? 'Edit Seller' : 'Add New Seller'}</h2>
+          <h2>{seller ? 'Chỉnh Sửa Người Bán' : 'Thêm Người Bán Mới'}</h2>
           <button className="modal-close" onClick={onClose}>✕</button>
         </div>
 
         <form onSubmit={handleSubmit}>
           <div className="modal-body">
             <div className="form-group">
-              <label htmlFor="name">Full Name</label>
+              <label htmlFor="name">Họ và Tên</label>
               <input
                 type="text"
                 id="name"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="Enter seller's full name"
+                placeholder="Nhập họ và tên người bán"
                 required
               />
             </div>
@@ -81,44 +81,44 @@ const SellerForm = ({ seller, onClose }) => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="Enter email address"
+                placeholder="Nhập địa chỉ email"
                 required
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="phone">Phone Number</label>
+              <label htmlFor="phone">Số Điện Thoại</label>
               <input
                 type="tel"
                 id="phone"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="Enter phone number"
+                placeholder="Nhập số điện thoại"
                 required
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="company">Company</label>
+              <label htmlFor="company">Công Ty</label>
               <input
                 type="text"
                 id="company"
                 name="company"
                 value={formData.company}
                 onChange={handleChange}
-                placeholder="Enter company name"
+                placeholder="Nhập tên công ty"
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="address">Address</label>
+              <label htmlFor="address">Địa Chỉ</label>
               <textarea
                 id="address"
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
-                placeholder="Enter address"
+                placeholder="Nhập địa chỉ"
                 rows="3"
               />
             </div>
@@ -126,10 +126,10 @@ const SellerForm = ({ seller, onClose }) => {
 
           <div className="modal-footer">
             <button type="button" className="btn btn-outline" onClick={onClose}>
-              Cancel
+              Hủy
             </button>
             <button type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? 'Saving...' : (seller ? 'Update' : 'Create')}
+              {loading ? 'Đang lưu...' : (seller ? 'Cập Nhật' : 'Tạo Mới')}
             </button>
           </div>
         </form>

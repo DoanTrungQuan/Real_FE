@@ -20,26 +20,29 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
-          🏠 RealEstate Pro
+          🏠 RealEstate Management
         </Link>
 
         <div className="navbar-menu">
           {user ? (
             <>
               <Link to="/properties" className={isActive('/properties')}>
-                Properties
+                Bất Động Sản
+              </Link>
+              <Link to="/map" className={isActive('/map')}>
+                🗺️ Bản Đồ
               </Link>
               
               {isAdmin() && (
                 <>
                   <Link to="/admin" className={isActive('/admin')}>
-                    Dashboard
+                    Tổng Quan
                   </Link>
                   <Link to="/admin/properties" className={isActive('/admin/properties')}>
-                    Manage Properties
+                    Quản Lý BĐS
                   </Link>
                   <Link to="/admin/sellers" className={isActive('/admin/sellers')}>
-                    Manage Sellers
+                    Quản Lý Người Bán
                   </Link>
                 </>
               )}
@@ -47,17 +50,17 @@ const Navbar = () => {
               <div className="navbar-user">
                 <span>👤 {user.name}</span>
                 <button onClick={handleLogout} className="btn-logout">
-                  Logout
+                  Đăng Xuất
                 </button>
               </div>
             </>
           ) : (
             <>
               <Link to="/login" className={isActive('/login')}>
-                Login
+                Đăng Nhập
               </Link>
               <Link to="/register" className={isActive('/register')}>
-                Register
+                Đăng Ký
               </Link>
             </>
           )}

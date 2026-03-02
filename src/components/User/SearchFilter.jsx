@@ -23,7 +23,7 @@ const SearchFilter = ({ filters, onFilterChange }) => {
     <div className="search-filter-section">
       <div className="search-filter-form">
         <div className="form-group">
-          <label>Search</label>
+          <label>Tìm Kiếm</label>
           <div className="search-input">
             <span className="search-icon">🔍</span>
             <input
@@ -31,62 +31,62 @@ const SearchFilter = ({ filters, onFilterChange }) => {
               name="keyword"
               value={filters.keyword}
               onChange={handleChange}
-              placeholder="Search by title or location..."
+              placeholder="Tìm theo tiêu đề hoặc địa điểm..."
             />
           </div>
         </div>
 
         <div className="form-group">
-          <label>Property Type</label>
+          <label>Loại Bất Động Sản</label>
           <select
             name="type"
             value={filters.type}
             onChange={handleChange}
             className="filter-select"
           >
-            <option value="all">All Types</option>
-            <option value="land">Land</option>
-            <option value="house">House</option>
-            <option value="apartment">Apartment</option>
-            <option value="commercial">Commercial</option>
+            <option value="all">Tất Cả</option>
+            <option value="land">Đất</option>
+            <option value="house">Nhà</option>
+            <option value="apartment">Căn Hộ</option>
+            <option value="commercial">Thương Mại</option>
           </select>
         </div>
 
         <div className="form-group">
-          <label>Status</label>
+          <label>Trạng Thái</label>
           <select
             name="status"
             value={filters.status}
             onChange={handleChange}
             className="filter-select"
           >
-            <option value="all">All Status</option>
-            <option value="available">Available</option>
-            <option value="pending">Pending</option>
-            <option value="sold">Sold</option>
+            <option value="all">Tất Cả</option>
+            <option value="available">Đang Bán</option>
+            <option value="pending">Đang Chờ</option>
+            <option value="sold">Đã Bán</option>
           </select>
         </div>
 
         <div className="form-group">
-          <label>Min Price</label>
+          <label>Giá Tối Thiểu</label>
           <input
             type="number"
             name="minPrice"
             value={filters.minPrice}
             onChange={handleChange}
-            placeholder="Min"
+            placeholder="Tối thiểu"
             className="filter-select"
           />
         </div>
 
         <div className="form-group">
-          <label>Max Price</label>
+          <label>Giá Tối Đa</label>
           <input
             type="number"
             name="maxPrice"
             value={filters.maxPrice}
             onChange={handleChange}
-            placeholder="Max"
+            placeholder="Tối đa"
             className="filter-select"
           />
         </div>
@@ -97,7 +97,7 @@ const SearchFilter = ({ filters, onFilterChange }) => {
             className="btn btn-outline"
             onClick={handleReset}
           >
-            Reset Filters
+            Đặt Lại Bộ Lọc
           </button>
         </div>
       </div>

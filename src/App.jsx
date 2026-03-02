@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { PropertyProvider } from './contexts/PropertyContext';
+import PropertyMap from './components/PropertyMap';
 
 // Components
 import Navbar from './components/Common/Navbar';
@@ -41,6 +42,11 @@ function App() {
                   </ProtectedRoute>
                 } 
               />
+              <Route path="/map" element={
+                <ProtectedRoute>
+                  <PropertyMap />
+                </ProtectedRoute>
+              } />
               <Route 
                 path="/properties/:id" 
                 element={

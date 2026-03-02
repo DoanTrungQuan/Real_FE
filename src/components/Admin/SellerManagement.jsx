@@ -27,7 +27,7 @@ const SellerManagement = () => {
       await deleteSeller(id);
       setDeleteConfirm(null);
     } catch (error) {
-      alert('Failed to delete seller');
+      alert('Xóa người bán thất bại');
     }
   };
 
@@ -39,9 +39,9 @@ const SellerManagement = () => {
   return (
     <div className="management-page">
       <div className="page-header">
-        <h1 className="page-title">Seller Management</h1>
+        <h1 className="page-title">Quản Lý Người Bán</h1>
         <button className="btn btn-primary" onClick={handleAdd}>
-          ➕ Add Seller
+          ➕ Thêm Người Bán
         </button>
       </div>
 
@@ -52,8 +52,8 @@ const SellerManagement = () => {
       ) : sellers.length === 0 ? (
         <div className="no-data">
           <div className="no-data-icon">👥</div>
-          <h3>No Sellers Found</h3>
-          <p>Start by adding your first seller.</p>
+          <h3>Không Tìm Thấy Người Bán</h3>
+          <p>Bắt đầu bằng cách thêm người bán đầu tiên.</p>
         </div>
       ) : (
         <div className="table-container">
@@ -61,12 +61,12 @@ const SellerManagement = () => {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Name</th>
+                <th>Họ Tên</th>
                 <th>Email</th>
-                <th>Phone</th>
-                <th>Company</th>
-                <th>Address</th>
-                <th>Actions</th>
+                <th>Số Điện Thoại</th>
+                <th>Công Ty</th>
+                <th>Địa Chỉ</th>
+                <th>Thao Tác</th>
               </tr>
             </thead>
             <tbody>
@@ -83,14 +83,14 @@ const SellerManagement = () => {
                       <button 
                         className="btn-icon edit"
                         onClick={() => handleEdit(seller)}
-                        title="Edit"
+                        title="Sửa"
                       >
                         ✏️
                       </button>
                       <button 
                         className="btn-icon delete"
                         onClick={() => setDeleteConfirm(seller.id)}
-                        title="Delete"
+                        title="Xóa"
                       >
                         🗑️
                       </button>
@@ -103,7 +103,7 @@ const SellerManagement = () => {
         </div>
       )}
 
-      {/* Seller Form Modal */}
+      {/* Modal Thêm/Sửa Người Bán */}
       {showModal && (
         <SellerForm 
           seller={editingSeller} 
@@ -111,31 +111,31 @@ const SellerManagement = () => {
         />
       )}
 
-      {/* Delete Confirmation Modal */}
+      {/* Modal Xác Nhận Xóa */}
       {deleteConfirm && (
         <div className="modal-overlay">
           <div className="modal" style={{ maxWidth: '400px' }}>
             <div className="modal-header">
-              <h2>Confirm Delete</h2>
+              <h2>Xác Nhận Xóa</h2>
               <button className="modal-close" onClick={() => setDeleteConfirm(null)}>
                 ✕
               </button>
             </div>
             <div className="modal-body">
-              <p>Are you sure you want to delete this seller? This action cannot be undone.</p>
+              <p>Bạn có chắc chắn muốn xóa người bán này không? Hành động này không thể hoàn tác.</p>
             </div>
             <div className="modal-footer">
               <button 
                 className="btn btn-outline" 
                 onClick={() => setDeleteConfirm(null)}
               >
-                Cancel
+                Hủy
               </button>
               <button 
                 className="btn btn-danger" 
                 onClick={() => handleDelete(deleteConfirm)}
               >
-                Delete
+                Xóa
               </button>
             </div>
           </div>

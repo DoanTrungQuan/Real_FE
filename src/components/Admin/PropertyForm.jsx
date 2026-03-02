@@ -61,7 +61,7 @@ const PropertyForm = ({ property, onClose }) => {
       }
       onClose();
     } catch (error) {
-      alert('Failed to save property');
+      alert('Lưu bất động sản thất bại');
     } finally {
       setLoading(false);
     }
@@ -71,28 +71,28 @@ const PropertyForm = ({ property, onClose }) => {
     <div className="modal-overlay">
       <div className="modal">
         <div className="modal-header">
-          <h2>{property ? 'Edit Property' : 'Add New Property'}</h2>
+          <h2>{property ? 'Chỉnh Sửa Bất Động Sản' : 'Thêm Bất Động Sản Mới'}</h2>
           <button className="modal-close" onClick={onClose}>✕</button>
         </div>
 
         <form onSubmit={handleSubmit}>
           <div className="modal-body">
             <div className="form-group">
-              <label htmlFor="title">Property Title</label>
+              <label htmlFor="title">Tiêu Đề</label>
               <input
                 type="text"
                 id="title"
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                placeholder="Enter property title"
+                placeholder="Nhập tiêu đề bất động sản"
                 required
               />
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
               <div className="form-group">
-                <label htmlFor="type">Property Type</label>
+                <label htmlFor="type">Loại Bất Động Sản</label>
                 <select
                   id="type"
                   name="type"
@@ -100,15 +100,15 @@ const PropertyForm = ({ property, onClose }) => {
                   onChange={handleChange}
                   required
                 >
-                  <option value="land">Land</option>
-                  <option value="house">House</option>
-                  <option value="apartment">Apartment</option>
-                  <option value="commercial">Commercial</option>
+                  <option value="land">Đất nền</option>
+                  <option value="house">Nhà ở</option>
+                  <option value="apartment">Căn hộ</option>
+                  <option value="commercial">Thương mại</option>
                 </select>
               </div>
 
               <div className="form-group">
-                <label htmlFor="status">Status</label>
+                <label htmlFor="status">Trạng Thái</label>
                 <select
                   id="status"
                   name="status"
@@ -116,50 +116,50 @@ const PropertyForm = ({ property, onClose }) => {
                   onChange={handleChange}
                   required
                 >
-                  <option value="available">Available</option>
-                  <option value="pending">Pending</option>
-                  <option value="sold">Sold</option>
+                  <option value="available">Còn trống</option>
+                  <option value="pending">Đang chờ</option>
+                  <option value="sold">Đã bán</option>
                 </select>
               </div>
             </div>
 
             <div className="form-group">
-              <label htmlFor="location">Location</label>
+              <label htmlFor="location">Địa Chỉ</label>
               <input
                 type="text"
                 id="location"
                 name="location"
                 value={formData.location}
                 onChange={handleChange}
-                placeholder="Enter property location"
+                placeholder="Nhập địa chỉ bất động sản"
                 required
               />
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
               <div className="form-group">
-                <label htmlFor="area">Area (sqft)</label>
+                <label htmlFor="area">Diện Tích (m²)</label>
                 <input
                   type="number"
                   id="area"
                   name="area"
                   value={formData.area}
                   onChange={handleChange}
-                  placeholder="Enter area"
+                  placeholder="Nhập diện tích"
                   required
                   min="1"
                 />
               </div>
 
               <div className="form-group">
-                <label htmlFor="price">Price ($)</label>
+                <label htmlFor="price">Giá (VNĐ)</label>
                 <input
                   type="number"
                   id="price"
                   name="price"
                   value={formData.price}
                   onChange={handleChange}
-                  placeholder="Enter price"
+                  placeholder="Nhập giá"
                   required
                   min="1"
                 />
@@ -167,7 +167,7 @@ const PropertyForm = ({ property, onClose }) => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="sellerId">Seller</label>
+              <label htmlFor="sellerId">Người Bán</label>
               <select
                 id="sellerId"
                 name="sellerId"
@@ -175,7 +175,7 @@ const PropertyForm = ({ property, onClose }) => {
                 onChange={handleChange}
                 required
               >
-                <option value="">Select a seller</option>
+                <option value="">Chọn người bán</option>
                 {sellers.map(seller => (
                   <option key={seller.id} value={seller.id}>
                     {seller.name} - {seller.company}
@@ -185,13 +185,13 @@ const PropertyForm = ({ property, onClose }) => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="description">Description</label>
+              <label htmlFor="description">Mô Tả</label>
               <textarea
                 id="description"
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
-                placeholder="Enter property description"
+                placeholder="Nhập mô tả bất động sản"
                 rows="4"
               />
             </div>
@@ -199,10 +199,10 @@ const PropertyForm = ({ property, onClose }) => {
 
           <div className="modal-footer">
             <button type="button" className="btn btn-outline" onClick={onClose}>
-              Cancel
+              Hủy
             </button>
             <button type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? 'Saving...' : (property ? 'Update' : 'Create')}
+              {loading ? 'Đang lưu...' : (property ? 'Cập Nhật' : 'Tạo Mới')}
             </button>
           </div>
         </form>

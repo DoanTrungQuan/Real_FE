@@ -33,7 +33,7 @@ const PropertyManagement = () => {
       await deleteProperty(id);
       setDeleteConfirm(null);
     } catch (error) {
-      alert('Failed to delete property');
+      alert('Xóa bất động sản thất bại');
     }
   };
 
@@ -43,9 +43,9 @@ const PropertyManagement = () => {
   };
 
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('vi-VN', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'VND',
       minimumFractionDigits: 0
     }).format(amount);
   };
@@ -56,15 +56,30 @@ const PropertyManagement = () => {
       sold: 'status-badge status-sold',
       pending: 'status-badge status-pending'
     };
-    return <span className={classes[status]}>{status}</span>;
+    const labels = {
+      available: 'Còn trống',
+      sold: 'Đã bán',
+      pending: 'Đang chờ'
+    };
+    return <span className={classes[status]}>{labels[status]}</span>;
+  };
+
+  const getTypeLabel = (type) => {
+    const labels = {
+      land: 'Đất nền',
+      house: 'Nhà ở',
+      apartment: 'Căn hộ',
+      commercial: 'Thương mại'
+    };
+    return labels[type] || type;
   };
 
   return (
     <div className="management-page">
       <div className="page-header">
-        <h1 className="page-title">Property Management</h1>
+        <h1 className="page-title">Quản Lý Bất Động Sản</h1>
         <button className="btn btn-primary" onClick={handleAdd}>
-          ➕ Add Property
+          ➕ Thêm Bất Động Sản
         </button>
       </div>
 
@@ -75,8 +90,8 @@ const PropertyManagement = () => {
       ) : properties.length === 0 ? (
         <div className="no-data">
           <div className="no-data-icon">🏠</div>
-          <h3>No Properties Found</h3>
-          <p>Start by adding your first property listing.</p>
+          <h3>Không Có Bất Động Sản</h3>
+          <p>Bắt đầu bằng cách thêm bất động sản đầu tiên của bạn.</p>
         </div>
       ) : (
         <div className="table-container">
@@ -84,13 +99,13 @@ const PropertyManagement = () => {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Title</th>
-                <th>Type</th>
-                <th>Location</th>
-                <th>Area (sqft)</th>
-                <th>Price</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th>Tiêu Đề</th>
+                <th>Loại</th>
+                <th>Địa Chỉ</th>
+                <th>Diện Tích (m²)</th>
+                <th>Giá</th>
+                <th>Trạng Thái</th>
+                <th>Hành Động</th>
               </tr>
             </thead>
             <tbody>
@@ -100,7 +115,7 @@ const PropertyManagement = () => {
                   <td>{property.title}</td>
                   <td>
                     <span className={`property-type-badge badge-${property.type}`}>
-                      {property.type}
+                      {getTypeLabel(property.type)}
                     </span>
                   </td>
                   <td>{property.location}</td>
@@ -112,14 +127,14 @@ const PropertyManagement = () => {
                       <button 
                         className="btn-icon edit"
                         onClick={() => handleEdit(property)}
-                        title="Edit"
+                        title="Chỉnh sửa"
                       >
                         ✏️
                       </button>
                       <button 
                         className="btn-icon delete"
                         onClick={() => setDeleteConfirm(property.id)}
-                        title="Delete"
+                        title="Xóa"
                       >
                         🗑️
                       </button>
@@ -132,7 +147,7 @@ const PropertyManagement = () => {
         </div>
       )}
 
-      {/* Property Form Modal */}
+      {/* Modal Form Bất Động Sản */}
       {showModal && (
         <PropertyForm 
           property={editingProperty} 
@@ -140,31 +155,31 @@ const PropertyManagement = () => {
         />
       )}
 
-      {/* Delete Confirmation Modal */}
+      {/* Modal Xác Nhận Xóa */}
       {deleteConfirm && (
         <div className="modal-overlay">
           <div className="modal" style={{ maxWidth: '400px' }}>
             <div className="modal-header">
-              <h2>Confirm Delete</h2>
+              <h2>Xác Nhận Xóa</h2>
               <button className="modal-close" onClick={() => setDeleteConfirm(null)}>
                 ✕
               </button>
             </div>
             <div className="modal-body">
-              <p>Are you sure you want to delete this property? This action cannot be undone.</p>
+              <p>Bạn có chắc chắn muốn xóa bất động sản này không? Hành động này không thể hoàn tác.</p>
             </div>
             <div className="modal-footer">
               <button 
                 className="btn btn-outline" 
                 onClick={() => setDeleteConfirm(null)}
               >
-                Cancel
+                Hủy
               </button>
               <button 
                 className="btn btn-danger" 
                 onClick={() => handleDelete(deleteConfirm)}
               >
-                Delete
+                Xóa
               </button>
             </div>
           </div>

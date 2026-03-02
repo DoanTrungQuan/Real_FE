@@ -101,6 +101,18 @@ export const propertiesAPI = {
     const response = await api.delete(`/properties/${id}`);
     return response.data;
   },
+  getForMap: async (bounds = null, status = null) => {
+    const params = new URLSearchParams();
+    if (bounds) params.append('bounds', JSON.stringify(bounds));
+    if (status) params.append('status', status);
+    const response = await api.get(`/properties/map?${params}`);
+    return response.data.data;
+  },
+
+  getNearby: async (lat, lng, radius = 10) => {
+    const response = await api.get(`/properties/location?lat=${lat}&lng=${lng}&radius=${radius}`);
+    return response.data.data;
+  },
 
   search: async (filters) => {
     const params = new URLSearchParams();
