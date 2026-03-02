@@ -56,7 +56,7 @@ const PropertyDetail = () => {
   const handleViewMap = () => {
     if (property?.latitude && property?.longitude) {
       navigate(
-        `/map?lat=${property.latitude}&lng=${property.longitude}&id=${property.id}&title=${encodeURIComponent(property.title)}&price=${property.price}`
+        `/map?lat=${property.latitude}&lng=${property.longitude}&id=${property.id}&title=${encodeURIComponent(property.title)}&price=${property.price}&image=${encodeURIComponent(property.image || '')}`
       );
     } else {
       alert('Bất động sản này chưa có tọa độ trên bản đồ.');
@@ -75,7 +75,7 @@ const PropertyDetail = () => {
     return (
       <div className="property-detail-page">
         <div className="no-data">
-          <div className="no-data-icon">❌</div>
+          <div className="no-data-icon">!</div>
           <h3>{error || 'Không tìm thấy bất động sản'}</h3>
           <Link to="/properties" className="btn btn-primary" style={{ marginTop: '1rem' }}>
             Quay Lại Danh Sách
@@ -94,7 +94,12 @@ const PropertyDetail = () => {
       <div className="property-detail-container">
         <div className="property-main">
           <div className="property-main-image">
-            🏠
+            <img
+              src={property.image || property.images?.[0] || '/placeholder.jpg'}
+              alt={property.title}
+              style={{ width: '100%', height: '400px', objectFit: 'cover', borderRadius: '8px' }}
+              onError={(e) => { e.target.src = '/placeholder.jpg'; }}
+            />
           </div>
           <div className="property-main-content">
             <div className="property-main-header">
@@ -134,6 +139,34 @@ const PropertyDetail = () => {
                 <div className="value">{property.createdAt}</div>
                 <div className="label">Ngày Đăng</div>
               </div>
+              {property.bedrooms > 0 && (
+                <div className="property-info-item">
+                  <div className="icon">🛏️</div>
+                  <div className="value">{property.bedrooms}</div>
+                  <div className="label">Phòng Ngủ</div>
+                </div>
+              )}
+              {property.bathrooms > 0 && (
+                <div className="property-info-item">
+                  <div className="icon">🚿</div>
+                  <div className="value">{property.bathrooms}</div>
+                  <div className="label">Phòng Tắm</div>
+                </div>
+              )}
+              {property.floors > 0 && (
+                <div className="property-info-item">
+                  <div className="icon">🏢</div>
+                  <div className="value">{property.floors}</div>
+                  <div className="label">Số Tầng</div>
+                </div>
+              )}
+              {property.garage > 0 && (
+                <div className="property-info-item">
+                  <div className="icon">🚗</div>
+                  <div className="value">{property.garage}</div>
+                  <div className="label">Garage</div>
+                </div>
+              )}
             </div>
 
             <div className="property-description">
@@ -183,7 +216,6 @@ const PropertyDetail = () => {
             <p>Không có thông tin người bán</p>
           )}
 
-          {/* Map button always visible */}
           <button
             className="btn btn-outline"
             style={{ marginTop: '0.5rem', width: '100%' }}

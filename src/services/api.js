@@ -16,11 +16,11 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    console.log('📤 Request:', config.method?.toUpperCase(), config.url); // Debug
+    console.log('Request:', config.method?.toUpperCase(), config.url); // Debug
     return config;
   },
   (error) => {
-    console.error('❌ Request error:', error);
+    console.error('Request error:', error);
     return Promise.reject(error);
   }
 );
@@ -28,11 +28,11 @@ api.interceptors.request.use(
 // Handle response errors
 api.interceptors.response.use(
   (response) => {
-    console.log('📥 Response:', response.config.url, response.status); // Debug
+    console.log('Response:', response.config.url, response.status); // Debug
     return response;
   },
   (error) => {
-    console.error('❌ Response error:', error.response?.status, error.response?.data);
+    console.error('Response error:', error.response?.status, error.response?.data);
     
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
@@ -58,7 +58,7 @@ export const authAPI = {
       console.log('✅ Login response:', response.data);
       return response.data;
     } catch (error) {
-      console.error('❌ Login failed:', error);
+      console.error('Login failed:', error);
       throw error;
     }
   },

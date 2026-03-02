@@ -12,7 +12,11 @@ const PropertyForm = ({ property, onClose }) => {
     price: '',
     status: 'available',
     description: '',
-    sellerId: ''
+    sellerId: '',
+    bedrooms: 0,
+    bathrooms: 0,
+    floors: 0,
+    garage: 0
   });
 
   useEffect(() => {
@@ -29,7 +33,11 @@ const PropertyForm = ({ property, onClose }) => {
         price: property.price || '',
         status: property.status || 'available',
         description: property.description || '',
-        sellerId: property.sellerId || ''
+        sellerId: property.sellerId || '',
+        bedrooms: property.bedrooms || 0,
+        bathrooms: property.bathrooms || 0,
+        floors: property.floors || 0,
+        garage: property.garage || 0
       });
     }
   }, [property]);
@@ -49,9 +57,13 @@ const PropertyForm = ({ property, onClose }) => {
     try {
       const data = {
         ...formData,
-        area: parseInt(formData.area),
-        price: parseInt(formData.price),
-        sellerId: parseInt(formData.sellerId)
+        area:      parseInt(formData.area),
+        price:     parseInt(formData.price),
+        sellerId:  parseInt(formData.sellerId),
+        bedrooms:  parseInt(formData.bedrooms) || 0,
+        bathrooms: parseInt(formData.bathrooms) || 0,
+        floors:    parseInt(formData.floors) || 0,
+        garage:    parseInt(formData.garage) || 0
       };
 
       if (property) {
@@ -77,6 +89,8 @@ const PropertyForm = ({ property, onClose }) => {
 
         <form onSubmit={handleSubmit}>
           <div className="modal-body">
+
+            {/* Title */}
             <div className="form-group">
               <label htmlFor="title">Tiêu Đề</label>
               <input
@@ -90,32 +104,20 @@ const PropertyForm = ({ property, onClose }) => {
               />
             </div>
 
+            {/* Type + Status */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
               <div className="form-group">
                 <label htmlFor="type">Loại Bất Động Sản</label>
-                <select
-                  id="type"
-                  name="type"
-                  value={formData.type}
-                  onChange={handleChange}
-                  required
-                >
+                <select id="type" name="type" value={formData.type} onChange={handleChange} required>
                   <option value="land">Đất nền</option>
                   <option value="house">Nhà ở</option>
                   <option value="apartment">Căn hộ</option>
                   <option value="commercial">Thương mại</option>
                 </select>
               </div>
-
               <div className="form-group">
                 <label htmlFor="status">Trạng Thái</label>
-                <select
-                  id="status"
-                  name="status"
-                  value={formData.status}
-                  onChange={handleChange}
-                  required
-                >
+                <select id="status" name="status" value={formData.status} onChange={handleChange} required>
                   <option value="available">Còn trống</option>
                   <option value="pending">Đang chờ</option>
                   <option value="sold">Đã bán</option>
@@ -123,6 +125,7 @@ const PropertyForm = ({ property, onClose }) => {
               </div>
             </div>
 
+            {/* Location */}
             <div className="form-group">
               <label htmlFor="location">Địa Chỉ</label>
               <input
@@ -136,6 +139,7 @@ const PropertyForm = ({ property, onClose }) => {
               />
             </div>
 
+            {/* Area + Price */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
               <div className="form-group">
                 <label htmlFor="area">Diện Tích (m²)</label>
@@ -150,7 +154,6 @@ const PropertyForm = ({ property, onClose }) => {
                   min="1"
                 />
               </div>
-
               <div className="form-group">
                 <label htmlFor="price">Giá (VNĐ)</label>
                 <input
@@ -166,15 +169,62 @@ const PropertyForm = ({ property, onClose }) => {
               </div>
             </div>
 
+            {/* Bedrooms + Bathrooms */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div className="form-group">
+                <label htmlFor="bedrooms">🛏️ Phòng Ngủ</label>
+                <input
+                  type="number"
+                  id="bedrooms"
+                  name="bedrooms"
+                  value={formData.bedrooms}
+                  onChange={handleChange}
+                  min="0"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="bathrooms">🚿 Phòng Tắm</label>
+                <input
+                  type="number"
+                  id="bathrooms"
+                  name="bathrooms"
+                  value={formData.bathrooms}
+                  onChange={handleChange}
+                  min="0"
+                />
+              </div>
+            </div>
+
+            {/* Floors + Garage */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div className="form-group">
+                <label htmlFor="floors">🏢 Số Tầng</label>
+                <input
+                  type="number"
+                  id="floors"
+                  name="floors"
+                  value={formData.floors}
+                  onChange={handleChange}
+                  min="0"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="garage">🚗 Garage (số xe)</label>
+                <input
+                  type="number"
+                  id="garage"
+                  name="garage"
+                  value={formData.garage}
+                  onChange={handleChange}
+                  min="0"
+                />
+              </div>
+            </div>
+
+            {/* Seller */}
             <div className="form-group">
               <label htmlFor="sellerId">Người Bán</label>
-              <select
-                id="sellerId"
-                name="sellerId"
-                value={formData.sellerId}
-                onChange={handleChange}
-                required
-              >
+              <select id="sellerId" name="sellerId" value={formData.sellerId} onChange={handleChange} required>
                 <option value="">Chọn người bán</option>
                 {sellers.map(seller => (
                   <option key={seller.id} value={seller.id}>
@@ -184,6 +234,7 @@ const PropertyForm = ({ property, onClose }) => {
               </select>
             </div>
 
+            {/* Description */}
             <div className="form-group">
               <label htmlFor="description">Mô Tả</label>
               <textarea
@@ -195,6 +246,7 @@ const PropertyForm = ({ property, onClose }) => {
                 rows="4"
               />
             </div>
+
           </div>
 
           <div className="modal-footer">

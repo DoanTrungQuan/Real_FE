@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, Popup, CircleMarker, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -27,11 +27,13 @@ const PropertyMap = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
+  // Read all URL params passed from PropertyDetail
   const focusLat   = searchParams.get('lat');
   const focusLng   = searchParams.get('lng');
   const focusId    = searchParams.get('id');
   const focusTitle = searchParams.get('title');
   const focusPrice = searchParams.get('price');
+  const focusImage = searchParams.get('image'); // ← image from URL
 
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,7 +61,7 @@ const PropertyMap = () => {
 
   // Auto open popup of focused marker
   useEffect(() => {
-    if (focusLat && focusLng) {
+    if (focusLat && focusLng && !loading) {
       setTimeout(() => {
         if (focusMarkerRef.current) {
           focusMarkerRef.current.openPopup();
@@ -116,7 +118,7 @@ const PropertyMap = () => {
             const lat = property.position?.lat ?? property.latitude;
             const lng = property.position?.lng ?? property.longitude;
             if (!lat || !lng) return null;
-            if (focusId && property.id === parseInt(focusId)) return null; // skip focused one
+            if (focusId && property.id === parseInt(focusId)) return null;
 
             return (
               <CircleMarker
@@ -127,6 +129,14 @@ const PropertyMap = () => {
               >
                 <Popup minWidth={200}>
                   <div style={{ lineHeight: '1.6' }}>
+                    {property.image && (
+                      <img
+                        src={property.image}
+                        alt={property.title}
+                        style={{ width: '100%', height: '100px', objectFit: 'cover', borderRadius: '4px', marginBottom: '6px' }}
+                        onError={(e) => { e.target.style.display = 'none'; }}
+                      />
+                    )}
                     <h3 style={{ margin: '0 0 4px', fontSize: '13px' }}>{property.title}</h3>
                     <p style={{ margin: '0 0 4px', color: '#e53935', fontWeight: 'bold', fontSize: '13px' }}>
                       {formatPrice(property.price)}
@@ -146,7 +156,7 @@ const PropertyMap = () => {
           {/* ===== FOCUSED PROPERTY (big red dot) ===== */}
           {focusLat && focusLng && (
             <>
-              {/* Outer pulsing ring */}
+              {/* Outer dashed ring */}
               <CircleMarker
                 center={[parseFloat(focusLat), parseFloat(focusLng)]}
                 radius={20}
@@ -170,13 +180,22 @@ const PropertyMap = () => {
                 }}
                 ref={focusMarkerRef}
               >
-                <Popup minWidth={220}>
+                <Popup minWidth={240}>
                   <div style={{ lineHeight: '1.8' }}>
-                    <h3 style={{ margin: '0 0 6px', fontSize: '14px' }}>
+                    {/* ✅ Show image from URL param */}
+                    {focusImage && decodeURIComponent(focusImage) && (
+                      <img
+                        src={decodeURIComponent(focusImage)}
+                        alt={focusTitle}
+                        style={{ width: '100%', height: '130px', objectFit: 'cover', borderRadius: '6px', marginBottom: '8px' }}
+                        onError={(e) => { e.target.style.display = 'none'; }}
+                      />
+                    )}
+                    <h3 style={{ margin: '0 0 4px', fontSize: '14px' }}>
                       📍 {focusTitle ? decodeURIComponent(focusTitle) : `Bất Động Sản #${focusId}`}
                     </h3>
                     {focusPrice && (
-                      <p style={{ margin: '0 0 6px', color: '#e53935', fontWeight: 'bold' }}>
+                      <p style={{ margin: '0 0 6px', color: '#e53935', fontWeight: 'bold', fontSize: '14px' }}>
                         {formatPrice(focusPrice)}
                       </p>
                     )}
